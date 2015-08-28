@@ -14,7 +14,7 @@ class AppDelegate< PM::Delegate
   # end
     def on_load(app, options)
         # open BaseScreen.new(nav_bar: true, path: '/')
-        site_url = "http://10.0.1.53:3000"
+        site_url = "http://lazyair.co"
         open_tab_bar WebScreen.new(url: site_url)#HomeScreen.new(nav_bar: true)#, ForumScreen.new(nav_bar: true)# , HelpScreen.new(nav_bar: true)
     end
 end

@@ -42,6 +42,7 @@ Motion::Project::App.setup do |app|
   end  
 
   app.entitlements['aps-environment'] = 'development'
+  app.info_plist['NSAppTransportSecurity'] = { 'NSAllowsArbitraryLoads' => true }
 
 
 end

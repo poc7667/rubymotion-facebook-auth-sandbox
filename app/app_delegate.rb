@@ -37,7 +37,16 @@ class AppDelegate< PM::Delegate
 
     # The `:other` data you set on the APNS::Notification can be accessed directly
     NSLog("%@", user_info[:some_extra_data])
+alert_log(user_info[:some_extra_data])
+
   end    
+
+  def alert_log(message)
+	  alert = UIAlertView.new 
+	  alert.message = message
+	  alert.show
+  end	
+
 
   # def on_load(app, options)
   #     # register_for_push_notifications :badge, :sound, :alert, :newsstand
@@ -58,6 +67,9 @@ class AppDelegate< PM::Delegate
     # else
     #   UIApplication.sharedApplication.registerForRemoteNotificationTypes(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)
     # end
+    alert = UIAlertView.new
+    alert.message = "Hello World!"
+    alert.show
     site_url = "http://tw.yahoo.com"
     puts site_url
     open_tab_bar WebScreen.new(url: site_url)#HomeScreen.new(nav_bar: true)#, ForumScreen.new(nav_bar: true)# , HelpScreen.new(nav_bar: true)

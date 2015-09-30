@@ -1,26 +1,47 @@
 # -*- coding: utf-8 -*-
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
-
+require 'bubble-wrap'
 begin
   require 'bundler'
   Bundler.require
 rescue LoadError
 end
 
+# dotenv 載入順序要在 bundler 後面
+require 'dotenv'
+Dotenv.load
+
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
-  app.name = 'lazybird'
+  app.name = 'LazyAIR'
+  app.identifier = 'com.lazyair.sandbox'
+  app.seed_id = ENV["SEED_ID"]
   app.info_plist["UIViewControllerBasedStatusBarAppearance"] = false
   app.pods do
     pod 'MGSwipeTableCell'
     pod 'XMLReader', '0.0.2'
     pod 'GDataXML-HTML'
   end
-  app.identifier = 'com.4am-studio.taiwan-water-info'
-  app.codesign_certificate = 'iPhone Developer: Wei Cheng Hsu'
-  # app.codesign_certificate = 'iPhone Distribution: Wei Cheng Hsu'
-  app.provisioning_profile = '/Users/hsu-wei-cheng/Dropbox/ios-dev/i6_provision_profile.mobileprovision'
-  # app.provisioning_profile = '~/Dropbox/ios-dev/Taiwan_water_information.mobileprovision'
+  # Building with `rake device`
+  app.development do
+    app.codesign_certificate = ENV['codesign_certificate']
+    app.provisioning_profile = ENV['provisioning_profile']
+    app.entitlements['aps-environment'] = 'development'
+    app.entitlements['get-task-allow'] = true
+    app.entitlements['keychain-access-groups'] = [
+       app.seed_id + '.' + app.identifier
+    ]
+    puts app.codesign_certificate
+    puts app.provisioning_profile
+  end
+
+  # Building for Ad Hoc or App Store distribution
+  app.release do
+    app.entitlements["aps-environment"] = "production"
+  end  
+
+  app.entitlements['aps-environment'] = 'development'
+
 
 end

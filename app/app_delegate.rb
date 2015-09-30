@@ -30,6 +30,15 @@ class AppDelegate< PM::Delegate
     NSLog(error.inspect)
   end
 
+
+  def application(application, didReceiveRemoteNotification: user_info)  
+    # The push notification information can be accessed on the `:aps` key
+    NSLog("%@", user_info[:aps][:alert])
+
+    # The `:other` data you set on the APNS::Notification can be accessed directly
+    NSLog("%@", user_info[:some_extra_data])
+  end    
+
   # def on_load(app, options)
   #     # register_for_push_notifications :badge, :sound, :alert, :newsstand
   #     # PM.logger.info registered_push_notifications    

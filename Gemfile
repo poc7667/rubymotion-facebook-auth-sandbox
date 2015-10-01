@@ -15,3 +15,4 @@ gem 'motion-cocoapods'
 gem 'dotenv', '~> 0.9.0'
 
 gem 'ProMotion-push'
+gem 'ruby_motion_query'

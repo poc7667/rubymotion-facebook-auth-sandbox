@@ -1,5 +1,27 @@
-class AppDelegate< PM::Delegate
+class AppDelegate < PM::Delegate
   include PM::DelegateNotifications
+  attr_accessor :facebook, :loading_alert, :current_user
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    # open_tab_bar WebScreen.new(url: site_url)#HomeScreen.new(nav_bar: true)#, ForumScreen.new(nav_bar: true)# , HelpScreen.new(nav_bar: true)
+    @window                    = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.rootViewController = UINavigationController.alloc.initWithRootViewController(MainController.new)
+    @window.makeKeyAndVisible
+    true    
+  end
+
+  def application(_, openURL:url, sourceApplication:sourceApplication, annotation:_)
+    FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication)
+  end
+
+  def applicationDidBecomeActive(application)
+    FBSession.activeSession.handleDidBecomeActive
+  end
+
+  def applicationWillTerminate(application)
+    FBSession.activeSession.close
+  end
+
 
   def register_push_notifications  
     if UIApplication.sharedApplication.respondsToSelector("registerUserNotificationSettings:")
@@ -30,63 +52,18 @@ class AppDelegate< PM::Delegate
     NSLog(error.inspect)
   end
 
-
   def application(application, didReceiveRemoteNotification: user_info)  
-    # The push notification information can be accessed on the `:aps` key
     NSLog("%@", user_info[:aps][:alert])
-
-    # The `:other` data you set on the APNS::Notification can be accessed directly
     NSLog("%@", user_info[:some_extra_data])
-alert_log(user_info[:some_extra_data])
-
+    alert_log(user_info[:some_extra_data])
   end    
 
   def alert_log(message)
-	  alert = UIAlertView.new 
-	  alert.message = message
-	  alert.show
-  end	
-
-
-  # def on_load(app, options)
-  #     # register_for_push_notifications :badge, :sound, :alert, :newsstand
-  #     # PM.logger.info registered_push_notifications    
-  #     site_url = "http://tw.yahoo.com"
-  #     puts site_url
-  #     open_tab_bar WebScreen.new(url: site_url)#HomeScreen.new(nav_bar: true)#, ForumScreen.new(nav_bar: true)# , HelpScreen.new(nav_bar: true)
-  # end
-
-
-  def application(application, didFinishLaunchingWithOptions:launchOptions)
-    puts Device.ios_version
-    register_push_notifications
-    # if Device.ios_version.start_with? "8"
-    #   settings = UIUserNotificationSettings.settingsForTypes((UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert), categories:nil)
-    #   UIApplication.sharedApplication.registerUserNotificationSettings(settings)
-    #   UIApplication.sharedApplication.registerForRemoteNotifications
-    # else
-    #   UIApplication.sharedApplication.registerForRemoteNotificationTypes(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)
-    # end
-    alert = UIAlertView.new
-    alert.message = "Hello World!"
+    alert = UIAlertView.new 
+    alert.message = message
     alert.show
-    site_url = "http://tw.yahoo.com"
-    puts site_url
-    open_tab_bar WebScreen.new(url: site_url)#HomeScreen.new(nav_bar: true)#, ForumScreen.new(nav_bar: true)# , HelpScreen.new(nav_bar: true)
-  end  
+  end 
 
 
-  # def on_unload
-  #   unregister_for_push_notifications
-  # end
 
-  # def on_push_registration(token, error)
-  #   puts 'on_push_registration'
-  #   puts token
-  #   PM.logger.info token.description
-  # end
-
-  # def on_push_notification(notification, launched)
-  #   PM.logger.info notification.to_json
-  # end  
 end

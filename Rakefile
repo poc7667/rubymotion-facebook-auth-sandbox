@@ -21,10 +21,11 @@ Motion::Project::App.setup do |app|
   app.identifier = 'com.lazyair.sandbox'
   app.seed_id = ENV["SEED_ID"]
   app.info_plist["UIViewControllerBasedStatusBarAppearance"] = false
+
+
+
   app.pods do
-    pod 'MGSwipeTableCell'
-    pod 'XMLReader', '0.0.2'
-    pod 'GDataXML-HTML'
+    pod 'Facebook-iOS-SDK'#, '~> 3.16.2'
   end
   # Building with `rake device`
   app.development do
@@ -45,7 +46,8 @@ Motion::Project::App.setup do |app|
   end  
 
   app.entitlements['aps-environment'] = 'development'
-  app.info_plist['NSAppTransportSecurity'] = { 'NSAllowsArbitraryLoads' => true }
-
+  app.info_plist['FacebookAppID'] = "1610673475838028"
+  app.info_plist['CFBundleURLTypes'] = [ { CFBundleURLSchemes: ["fb#{ENV['FB_APP_ID']}"] }]
+  puts app.info_plist
 
 end

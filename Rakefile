@@ -12,10 +12,12 @@ end
 # dotenv 載入順序要在 bundler 後面
 require 'dotenv'
 Dotenv.load
+# ENV['device_name'] ||= 'iPhone 6s'
 
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'LazyAIR'
+#  app.deployment_target = "7.1"
   app.identifier = 'com.lazyair.sandbox'
   app.seed_id = ENV["SEED_ID"]
   app.info_plist["UIViewControllerBasedStatusBarAppearance"] = false

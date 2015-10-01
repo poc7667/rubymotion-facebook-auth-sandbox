@@ -17,7 +17,6 @@ class AppDelegate< PM::Delegate
 
   def application(application, didRegisterForRemoteNotificationsWithDeviceToken: device_token)
     clean_token = device_token.description.gsub(" ", "").gsub("<", "").gsub(">", "")
-    
     # Log the push notification to the console
     puts clean_token
     NSLog("My token is: %@", clean_token)
@@ -27,6 +26,7 @@ class AppDelegate< PM::Delegate
     puts 'didFailToRegisterForRemoteNotificationsWithError'
     puts error.inspect
     puts error
+    puts error.code
     NSLog(error.inspect)
   end
 
@@ -59,7 +59,7 @@ alert_log(user_info[:some_extra_data])
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     puts Device.ios_version
-    register_push_notifications  
+    register_push_notifications
     # if Device.ios_version.start_with? "8"
     #   settings = UIUserNotificationSettings.settingsForTypes((UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert), categories:nil)
     #   UIApplication.sharedApplication.registerUserNotificationSettings(settings)

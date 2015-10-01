@@ -25,3 +25,5 @@ signing/pushKey.pem
 signing/ck.pem
 signing/CertificateSigningRequest.certSigningRequest
 signing/lazyair.mobileprovision
+.env
+backup

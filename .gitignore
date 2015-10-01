@@ -17,3 +17,11 @@ nbproject
 .dat*.*
 .bundle
 vendor
+signing/aps_development.cer
+signing/cert.pem
+signing/Certificates.p12
+signing/pushCert.pem
+signing/pushKey.pem
+signing/ck.pem
+signing/CertificateSigningRequest.certSigningRequest
+signing/lazyair.mobileprovision
